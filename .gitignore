@@ -16,6 +16,14 @@ iresnet100_lfssdv2/
 Tools/
 paper/
 
+# User files
+.vscode/
+*.code-workspace
+
+# Embeddings
+features/
+SimilarityLists/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
