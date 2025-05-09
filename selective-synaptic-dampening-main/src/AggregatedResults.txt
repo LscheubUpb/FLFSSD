@@ -1,0 +1,2 @@
+{mean_acc}, {mia}, {D_f_r}, {D_f_t}, {cosSim_Unlearned}, {cosSim_Reference}, {cosSim_Valid}, {time_elapsed}, {std_acc}
+iresnet50_agedb_lfssdv2_forget_classes_1-1_lambda:-0.9_alpha:0.5_BUS: 0.7475459629207846, 0.9967383742332458, 0.9985608458518982, 341, 0.010542243067245646, 0.9728333333333333
