@@ -1,4 +1,4 @@
-'Entries: 50/50 (Modified A Lot)'
+'Entries: 22/50 (Modified Often)'
 
 """
 Refer to forget_full_class_... for comments
@@ -34,7 +34,8 @@ def get_metric_scores(
     valid_dl, 
     model,
     forgetClasses,
-    verificationMethod
+    verificationMethod,
+    part
 ):
     print(Fore.GREEN + "Generating Features" + Style.RESET_ALL)
     # Generate Features using the untrained model
@@ -42,6 +43,8 @@ def get_metric_scores(
     featList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/MagFace/eval/eval_recognition/features/magface_{model_name}/{datasetArg}_{identifier}_unlearned.list"
     infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/MagFace/eval/eval_recognition/data/{datasetArg}/img.list"
     gen_feat(model_name, featList, infList, savePath)
+
+    unlearned_path = savePath
     
     print(Fore.GREEN + "Extracting Features for Cosine Similarity and MIA" + Style.RESET_ALL)
     # Cosine Similarity
@@ -54,16 +57,22 @@ def get_metric_scores(
     # Unlearned
     print("Generating Features of Data not in the Unlearning Set using the Unlearned Model")
     os.environ['PATH_PREFIX'] = ""
-    featList_Unlearned_Reference = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/NotUnlearnedEmbeddings_{identifier}.list"
+    featList_Unlearned_Reference = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/NotUnlearnedEmbeddings_{identifier}_{part}.list"
     infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/100_retain.list"
     print(f"Using Similarities of path {featList_Unlearned_Reference.split('/')[-1]}")
     gen_feat(model_name, featList_Unlearned_Reference, infList, savePath)
 
     print("Generating Features of Data in the Unlearning Set using the Unlearned Model")
-    featList_Unlearned_Unlearned = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/UnlearnedEmbeddings_{identifier}.list"
-    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/unlearned_{forgetClasses}_img.list"
+    featList_Unlearned_Unlearned = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/UnlearnedEmbeddings_{identifier}_{part}.list"
+    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/unlearned_single_part_img.list"
     print(f"Using Similarities of path {featList_Unlearned_Unlearned.split('/')[-1]}")
     gen_feat(model_name, featList_Unlearned_Unlearned, infList, savePath)
+
+    # print("Generating Features of Validation/Training Data using the Unlearned Model")
+    # featList_Unlearned_Valid = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/ValidEmbeddings_{identifier}_{part}.list"
+    # infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/200_valid.list"
+    # print(f"Using Similarities of path {featList_Unlearned_Valid.split('/')[-1]}")
+    # gen_feat(model_name, featList_Unlearned_Valid, infList, savePath)
 
     # Baseline
     print("Generating Features of Data not in the Unlearning Set using the Baseline Model")
@@ -74,16 +83,19 @@ def get_metric_scores(
     gen_feat(model_name, featList_Baseline_Reference, infList, savePath)
 
     print("Generating Features of Data in the Unlearning Set using the Baseline Model")
-    featList_Baseline_Unlearned = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/UnlearnedEmbeddings_Baseline_{forgetClasses}.list"
-    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/unlearned_{forgetClasses}_img.list"
+    featList_Baseline_Unlearned = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/UnlearnedEmbeddings_Baseline_{forgetClasses}_{part}.list"
+    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/unlearned_single_part_img.list"
     print(f"Using Similarities of path {featList_Baseline_Unlearned.split('/')[-1]}")
     gen_feat(model_name, featList_Baseline_Unlearned, infList, savePath)
 
+    # print("Generating Features of Validation/Training Data using the Baseline Model")
+    # featList_Baseline_Valid = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/ValidEmbeddings_Baseline.list"
+    # infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/200_valid.list"
+    # print(f"Using Similarities of path {featList_Baseline_Valid.split('/')[-1]}")
+    # gen_feat(model_name, featList_Baseline_Valid, infList, savePath)
+
     if (identifier == f"baseline_{forgetClasses}"):
         identifier = "baseline"
-
-    # metrics.makeTSNE(featList_Unlearned_Reference, featList_Unlearned_Unlearned ,"Unlearned")
-    # metrics.makeTSNE(featList_Baseline_Reference, featList_Baseline_Unlearned, "Baseline")
 
     print(Fore.GREEN + "Calculating Cosine Similarities" + Style.RESET_ALL)
     print("Calculating Cosine Similarities for the unlearned set")
@@ -104,7 +116,8 @@ def get_metric_scores(
     MIA_method = verificationMethod
     mia, D_f_r, D_f_t = 0, 0, 0
     if(MIA_method == "MIA"):
-        mia = metrics.get_membership_attack_prob(retain_train_dl, forget_train_dl, valid_dl, model)
+        # mia = metrics.get_membership_attack_prob(retain_train_dl, forget_train_dl, valid_dl, model)
+        pass
     elif(MIA_method == "Kolmogorov"):
         D_f_r = MIA.calculate_MIA(forget_similarity_set, retain_similarity_set)
     elif(MIA_method == "PIC"):
@@ -130,6 +143,9 @@ def get_metric_scores(
     }
 
     mean_acc, std_acc, tpr, fpr = eval_1v1_main(SimpleNamespace(**args))
+
+    if(D_f_r > 0.8):
+        os.environ['BASELINE_PATH'] = unlearned_path
 
     return mean_acc, std_acc, tpr, fpr, cosSim_Unlearned, cosSim_Reference, mia, D_f_r, MIA_method
 
@@ -178,7 +194,10 @@ def ssd_tuning(
         "selection_weighting": selection_weighting,
     }
 
-    identifier = f"{version}_{forget_perc}"
+    part = int(kwargs.get('part',"0"))
+    identifier = f"{version}_{part + 1}of{forget_perc}"
+    os.environ['ident'] = f"{identifier}_{dampening_constant}_{selection_weighting}"
+    identifier = f"{version}_{part}of{forget_perc}"
     savePath = f"C:\\Users\\leosc\\Documents\\_wichtigeDokumente\\Bachelorarbeit\\selective-synaptic-dampening-main\\src\\checkpoint\\unlearned\\extractor\\{model_name}"
     os.makedirs(savePath, exist_ok=True)
     savePath = f"{savePath}\\{identifier}_{method}_{dampening_constant}_{selection_weighting}_unlearned.pth"
@@ -202,14 +221,12 @@ def ssd_tuning(
 
     # Added environment variable for saving/loading the importances
     os.environ['ARCH'] = f"{model_name}_{ssd_version}"
-    # os.environ['IMP_DATASET'] = f"Partial_{identifier}"
     os.environ['IMP_DATASET'] = f"None"
     sample_importances = ssd.calc_importance(forget_train_dl)
 
     os.environ['PROB_DATASET'] = f"Partial_{identifier}"
 
     os.environ['IMP_DATASET'] = "Full"
-
     if(sample_dl is not None):
         original_importances = ssd.calc_importance(sample_dl)
     else:
@@ -229,19 +246,4 @@ def ssd_tuning(
 
     verificationMethod = kwargs.get('verificationMethod')
 
-    return get_metric_scores(dataset_name, savePath, model_name, f"{identifier}_{dampening_constant}_{selection_weighting}", retain_train_dl, forget_train_dl, valid_dl, modelWithoutHead, forget_perc, verificationMethod)
-
-def baseline(
-    model,
-    retain_train_dl, 
-    forget_train_dl, 
-    valid_dl,
-    savePath,
-    **kwargs,
-):
-    model_name = kwargs.get('model_name')
-    dataset_name = kwargs.get('dataset_name')
-    forget_perc = kwargs.get('forget_perc')
-    verificationMethod = kwargs.get('verificationMethod')
-
-    return get_metric_scores(dataset_name, savePath, model_name, "baseline", retain_train_dl, forget_train_dl, valid_dl, model, forget_perc, verificationMethod)
+    return get_metric_scores(dataset_name, savePath, model_name, f"{identifier}_{dampening_constant}_{selection_weighting}", retain_train_dl, forget_train_dl, valid_dl, modelWithoutHead, forget_perc, verificationMethod, part)

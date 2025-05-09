@@ -154,8 +154,9 @@ class ParameterPerturber:
         calculateBool = True
 
         if (part>=2): # For individual classes unlearning, recalculating after forgetting two classes
-            savePath = f"./importances/{arch}/Full_imp_sampled_part_over_2"
-            # savePath = f"./importances/{arch}/MS1M_V2_{currentMode}_imp"
+            # Uncomment first line and comment second line to recaulculate importances after part 2
+            # savePath = f"./importances/{arch}/Full_imp_sampled_part_over_2"
+            savePath = f"./importances/{arch}/MS1M_V2_{currentMode}_imp"
         else:
             savePath = f"./importances/{arch}/MS1M_V2_{currentMode}_imp"
         if os.path.exists(savePath) and not currentMode == "None": # and sampling == "none":

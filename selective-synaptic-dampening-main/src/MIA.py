@@ -37,17 +37,16 @@ def calculate_MIA(forget_similarity, retain_similarity):
     
     """This is only for plotting for the thesis"""
     """Distribution"""
-    # plt.clf()
-    # plt.hist(sorted_retain_similarities, bins=30, alpha=0.5, label=f"Retain Similarities", density=True)
-    # # plt.hist(sorted_valid_similarities, bins=30, alpha=0.5, label='Test Similarities', density=True)
-    # plt.hist(sorted_forget_similarities, bins=30, alpha=0.5, label=f"Forget Similarities", density=True)
-    # plt.title('Smiliarity Distributions')
-    # plt.xlabel('Value')
-    # plt.ylabel('Density')
-    # # plt.yscale('log')
-    # plt.legend()
-    # plt.show()
-    # plt.savefig(f".\\distributions\\{os.getenv('ident','what')}.png", dpi=300, bbox_inches='tight')
+    plt.clf()
+    plt.hist(sorted_retain_similarities, bins=30, alpha=0.5, label=f"Retain Similarities", density=True)
+    # plt.hist(sorted_valid_similarities, bins=30, alpha=0.5, label='Test Similarities', density=True)
+    plt.hist(sorted_forget_similarities, bins=30, alpha=0.5, label=f"Forget Similarities", density=True)
+    plt.title('Smiliarity Distributions')
+    plt.xlabel('Value')
+    plt.ylabel('Density')
+    # plt.yscale('log')
+    plt.legend()
+    plt.savefig(f".\\distributions\\{os.getenv('fileName','what')}.png", dpi=300, bbox_inches='tight')
     """end Distribution"""
 
     """Commulative distributions plot"""

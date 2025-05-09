@@ -23,6 +23,8 @@ paper/
 # Embeddings
 features/
 SimilarityLists/
+distributions/
+
 
 
 # Byte-compiled / optimized / DLL files

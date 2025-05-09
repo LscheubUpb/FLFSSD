@@ -104,7 +104,7 @@ def perform_1v1_eval(args):
             thresholds, embeddings0, embeddings1,targets,
             nrof_folds=args.test_folds, subtract_mean=True)
     print('    Accuracy: %2.5f+-%2.5f' % (np.mean(accuracy), np.std(accuracy)))
-    # plot_roc_curve(fpr, tpr)
+    plot_roc_curve(fpr, tpr)
     return np.mean(accuracy), np.std(accuracy), tpr, fpr
 
 def distance_(embeddings0, embeddings1):
@@ -118,6 +118,7 @@ def distance_(embeddings0, embeddings1):
 
 def plot_roc_curve(fpr, tpr):
     # Create the ROC curve plot
+    plt.clf()
     plt.figure(figsize=(8, 6))
     plt.plot(fpr, tpr, color='blue', label='ROC curve')
     plt.plot([0, 1], [0, 1], 'r--')  # Diagonal line for random chance
@@ -126,6 +127,7 @@ def plot_roc_curve(fpr, tpr):
     plt.title('Receiver Operating Characteristic (ROC) Curve')
     plt.legend(loc='lower right')
     plt.grid()
+    plt.savefig(f".\\distributions\\roc_{os.getenv('fileName','what')}.png", dpi=300, bbox_inches='tight')
 
     # Close the plot to free up memory
     # plt.show()

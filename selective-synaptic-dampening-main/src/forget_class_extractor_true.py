@@ -100,7 +100,7 @@ if __name__ == '__main__':
     parser.add_argument("-warm", type=int, default=1, help="warm up training phase")
     parser.add_argument("-lr", type=float, default=0.1, help="initial learning rate")
     parser.add_argument("-method",type=str, default="ssd_tuning" ,nargs="?",choices=["ssd_tuning","baseline"],help="select unlearning method from choice set",)
-    parser.add_argument("-dataset",type=str,required=True,nargs="?",choices=["agedb", "lfw", "cfp", "Adience","Pins"],help="dataset to test on",)
+    parser.add_argument("-dataset",type=str,required=True,nargs="?",choices=["agedb", "lfw", "cfp", "Adience"],help="dataset to test on",)
     parser.add_argument("-epochs", type=int, default=1, help="number of epochs of unlearning method to use")
     parser.add_argument("-seed", type=int, default=0, help="seed for runs")
     parser.add_argument('-embedding_size', default=512, type=int,help='The embedding feature size')
@@ -214,6 +214,9 @@ if __name__ == '__main__':
 
     if not args.noSSD:
         for dampening_constant in dampening_constants:
+
+            os.environ['fileName'] = f"{args.arch}_{args.dataset}_{args.ssd}_forget_classes_{forget_range}_lambda{dampening_constant}_alpha{selection_weighting}"
+            
             for selection_weighting in selection_weightings:
                 kwargs = {
                     "model": copy.deepcopy(net),
