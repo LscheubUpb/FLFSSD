@@ -1,3 +1,22 @@
+# Checkpoints
+*.pth
+*.pdparams
+*.pkl
+
+# Big datasets
+*/src/data/
+
+# Importances
+iresnet50_lfssd/
+iresnet50_lfssdv2/
+iresnet100_lfssd/
+iresnet100_lfssdv2/
+
+# Private files
+Tools/
+paper/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
