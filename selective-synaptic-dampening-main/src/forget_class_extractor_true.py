@@ -266,6 +266,7 @@ if __name__ == '__main__':
 
     #################### Baseline ########################
     if (args.runBaseline):
+        os.environ['fileName'] = f"baseline_{args.arch}_{args.dataset}"
         kwargs = {
                     "model": copy.deepcopy(net),
                     "retain_train_dl": retain_train_dl,

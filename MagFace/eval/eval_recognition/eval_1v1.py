@@ -58,7 +58,10 @@ def load_feat_pair(feat_path, pair_path, offset = 0):
             idx_a, idx_b, _ = pairs_info[idx]
             idx_a = int(idx_a.replace('.jpg', ''))
             idx_b = int(idx_b.replace('.jpg', ''))
-            feat_a = ls[idx_a - offset] # -1 for CelebA, -0 for rest
+            try:
+                feat_a = ls[idx_a - offset]
+            except:
+                raise ValueError(f"Index {idx_a - offset} is out of range, try deleting {feat_path} and running again. (This can happen if the programm was stopped while extracting the features)")
             feat_b = ls[idx_b - offset]
             is_same = pairs_info[idx][-1]
             pairs[idx] = [feat_a, feat_b, is_same]
