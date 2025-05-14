@@ -51,11 +51,12 @@ def get_metric_scores(
     if (identifier == "baseline"):
         identifier = f"baseline_{forgetClasses}"
 
+    compparison_Size = os.getenv('COMPARISONSIZE','100')
     # Unlearned
     print("Generating Features of Data not in the Unlearning Set using the Unlearned Model")
     os.environ['PATH_PREFIX'] = ""
     featList_Unlearned_Reference = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/NotUnlearnedEmbeddings_{identifier}.list"
-    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/100_retain.list"
+    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{compparison_Size}_retain.list"
     print(f"Using Similarities of path {featList_Unlearned_Reference.split('/')[-1]}")
     gen_feat(model_name, featList_Unlearned_Reference, infList, savePath)
 
@@ -69,7 +70,7 @@ def get_metric_scores(
     print("Generating Features of Data not in the Unlearning Set using the Baseline Model")
     savePath = os.getenv('BASELINE_PATH')
     featList_Baseline_Reference = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{model_name}/NotUnlearnedEmbeddings_Baseline_{forgetClasses}.list"
-    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/100_retain.list"
+    infList = f"C:/Users/leosc/Documents/_wichtigeDokumente/Bachelorarbeit/selective-synaptic-dampening-main/src/SimilarityLists/{compparison_Size}_retain.list"
     print(f"Using Similarities of path {featList_Baseline_Reference.split('/')[-1]}")
     gen_feat(model_name, featList_Baseline_Reference, infList, savePath)
 
@@ -126,7 +127,7 @@ def get_metric_scores(
         "eval_type": "1v1",
         "distance_metric": 1,
         "test_folds": 10,
-        "offset": 0 
+        "offset": 0
     }
 
     mean_acc, std_acc, tpr, fpr = eval_1v1_main(SimpleNamespace(**args))

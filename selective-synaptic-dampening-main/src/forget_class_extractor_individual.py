@@ -17,6 +17,7 @@ from training_utils import *
 from network_inf import builder_inf
 import matplotlib.pyplot as plt
 import copy
+import generate_imglist
 from colorama import Fore, Style
 
 def num_items_in_folder(folder_path):
@@ -98,7 +99,11 @@ if __name__ == '__main__':
     parser.add_argument("-verificationMethod",type=str, default="both" ,choices=["MIA","PIC","Kolmogorov","both"],help="select unlearning verification method from choice set",)
     parser.add_argument('-forgetImages', type=int ,default=0, help='Number of images to forget, overrides forgetClasses')
     parser.add_argument('-sampling', type=str, default="none", help="If the importances/activations shold be only calculated from a sample off the dataset")
+    parser.add_argument('-comparisonSize', type=int, default=100, help="The amount of classes used from the training dataset to represent the whole training set when extracting features for the cosine similarity computation. Does not affect the unlearning itself, just the validation")
     args = parser.parse_args()
+
+    generate_imglist.make_imagelist(args.comparisonSize)
+    os.environ['COMPARISONSIZE'] = str(args.comparisonSize)
 
     sampling_count = 100
     if(args.sampling != "none"):

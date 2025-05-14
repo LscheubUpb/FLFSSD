@@ -15,6 +15,7 @@ from utils_ssd import *
 import forget_class_extractor_strategies_true
 from training_utils import *
 from network_inf import builder_inf
+import generate_imglist
 import matplotlib.pyplot as plt
 import copy
 from colorama import Fore, Style
@@ -120,7 +121,11 @@ if __name__ == '__main__':
     parser.add_argument('-forgetImages', type=int ,default=0, help='Number of images to forget, overrides forgetClasses')
     parser.add_argument('-distanceMethod', type=str ,default="cosine",  choices=["cosine","euclidian"], help='Number of images to forget, overrides forgetClasses')
     parser.add_argument('-sampling', type=str, default="none", help="If the importances/activations shold be only calculated from a sample off the dataset")
+    parser.add_argument('-comparisonSize', type=int, default=100, help="The amount of classes used from the training dataset to represent the whole training set when extracting features for the cosine similarity computation. Does not affect the unlearning itself, just the validation")
     args = parser.parse_args()
+
+    generate_imglist.make_imagelist(args.comparisonSize)
+    os.environ['COMPARISONSIZE'] = str(args.comparisonSize)
 
     sampling_count = 100
     if(args.sampling != "none"):
@@ -310,4 +315,4 @@ if __name__ == '__main__':
         print(Style.RESET_ALL)
 
         with open(aggregateResultsFile, "a") as f:
-            f.write(f"{args.arch}_{args.dataset}_{args.ssd}_forget_classes_{forget_range}_Baseline_{mia_method}: {mean_acc}, {mia}, {D_f_r}, {cosSim_Unlearned}, {cosSim_Reference}, {time_elapsed}, {std_acc}\n")
+            f.write(f"{args.arch}_{args.dataset}_{args.ssd}_forget_classes_{forget_range}_Baseline_{mia_method}: {D_f_r}, {cosSim_Unlearned}, {cosSim_Reference}, {int(time_elapsed)}, {std_acc}, {mean_acc}\n")
